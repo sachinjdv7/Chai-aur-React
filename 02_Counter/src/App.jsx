@@ -20,11 +20,17 @@ function App() {
     setCounter((prevCount)=> prevCount -1)
   }
 
+  const handleAddRemoveValueChange = (delta) => {
+    if (counter + delta >= 0 && counter + delta <= 20) {
+      setCounter((prevCount) => prevCount + delta);
+    }
+  };
+
   return (
     <>
       <h3>counter value is :{counter}</h3>
-      <button onClick={handleAddValue}>Add</button>
-      <button onClick={handleRemoveValue}>Remove</button>
+      <button onClick={()=>handleAddRemoveValueChange(1)}>Add</button>
+      <button onClick={()=>handleAddRemoveValueChange(-1)}>Remove</button>
       
     </>
   )
