@@ -12,6 +12,9 @@ function App() {
     if(counter === 20) return
     // setCounter(counter +1)
     setCounter((prevCount)=> prevCount + 1)
+    setCounter((prevCount)=> prevCount + 1)
+    setCounter((prevCount)=> prevCount + 1)
+    setCounter((prevCount)=> prevCount + 1)
   }
 
   const handleRemoveValue = ()=>{
