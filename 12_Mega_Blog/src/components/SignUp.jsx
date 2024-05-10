@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import authService from "../appwrite/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
-import { Button, Input, Logo } from "./index";
+import { Button, Input, Logo } from "./index.js";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 
 function SignUp() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
@@ -18,15 +18,14 @@ function SignUp() {
       const userData = await authService.createAccount(data);
       if (userData) {
         const userData = await authService.getCurrentUser();
-        if (userData) {
-          dispatch(login(userData));
-          navigate("/");
-        }
+        if (userData) dispatch(login(userData));
+        navigate("/");
       }
     } catch (error) {
       setError(error.message);
     }
   };
+
   return (
     <div className="flex items-center justify-center">
       <div
@@ -56,7 +55,9 @@ function SignUp() {
             <Input
               label="Full Name: "
               placeholder="Enter your full name"
-              {...register("name")}
+              {...register("name", {
+                required: true,
+              })}
             />
             <Input
               label="Email: "
@@ -73,9 +74,11 @@ function SignUp() {
             />
             <Input
               label="Password: "
-              placeholder="Enter your password"
               type="password"
-              {...register("password", { required: true })}
+              placeholder="Enter your password"
+              {...register("password", {
+                required: true,
+              })}
             />
             <Button type="submit" className="w-full">
               Create Account

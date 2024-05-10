@@ -4,12 +4,14 @@ import config from "../confing/config";
 class AuthService {
   client = new Client();
   account;
+
   constructor() {
     this.client
       .setEndpoint(config.appwriteUrl)
       .setProject(config.appwriteProjectId);
     this.account = new Account(this.client);
   }
+
   async createAccount({ email, password, name }) {
     try {
       const userAccout = await this.account.create(
@@ -28,6 +30,7 @@ class AuthService {
       console.log("Appwrite service :: createAccount :: error", error);
     }
   }
+
   async login({ email, password }) {
     try {
       return await this.account.createEmailSession(email, password);
@@ -35,6 +38,7 @@ class AuthService {
       console.log("Appwrite service :: login :: error", error);
     }
   }
+
   async getCurrentUser() {
     try {
       return await this.account.get();
@@ -43,6 +47,7 @@ class AuthService {
     }
     return null;
   }
+
   async logout() {
     try {
       await this.account.deleteSessions();
