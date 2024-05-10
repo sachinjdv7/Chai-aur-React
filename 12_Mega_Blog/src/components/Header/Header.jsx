@@ -34,6 +34,7 @@ function Header() {
       active: authStatus,
     },
   ];
+
   return (
     <header className="py-3 shadow bg-gray-500">
       <Container>
@@ -43,14 +44,16 @@ function Header() {
               <Logo width="70px" />
             </Link>
           </div>
-          <ul className="flexl ml-auto">
+          <ul className="flex ml-auto">
             {navItems.map((item) =>
               item.active ? (
                 <li key={item.name}>
                   <button
                     className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full"
                     onClick={() => navigate(item.slug)}
-                  ></button>
+                  >
+                    {item.name}
+                  </button>
                 </li>
               ) : null
             )}
