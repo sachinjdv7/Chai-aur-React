@@ -1,7 +1,7 @@
-import { Client, Account, ID } from "appwrite";
 import config from "../confing/config";
+import { Client, Account, ID } from "appwrite";
 
-class AuthService {
+export class AuthService {
   client = new Client();
   account;
 
@@ -14,20 +14,20 @@ class AuthService {
 
   async createAccount({ email, password, name }) {
     try {
-      const userAccout = await this.account.create(
+      const userAccount = await this.account.create(
         ID.unique(),
         email,
         password,
         name
       );
-      if (userAccout) {
+      if (userAccount) {
         // call another method
         return this.login({ email, password });
       } else {
-        return userAccout;
+        return userAccount;
       }
     } catch (error) {
-      console.log("Appwrite service :: createAccount :: error", error);
+      throw error;
     }
   }
 
@@ -35,7 +35,7 @@ class AuthService {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
-      console.log("Appwrite service :: login :: error", error);
+      throw error;
     }
   }
 
@@ -43,8 +43,9 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      console.log("Appwrite service :: getCurrentUser :: error", error);
+      console.log("Appwrite serive :: getCurrentUser :: error", error);
     }
+
     return null;
   }
 
@@ -52,7 +53,7 @@ class AuthService {
     try {
       await this.account.deleteSessions();
     } catch (error) {
-      console.log("Appwrite service :: logout :: error", error);
+      console.log("Appwrite serive :: logout :: error", error);
     }
   }
 }
