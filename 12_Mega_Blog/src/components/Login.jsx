@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../store/authSlice";
-import { useDispatch } from "react-redux";
-import authServie from "../appwrite/auth";
 import { Button, Input, Logo } from "./index";
+import { useDispatch } from "react-redux";
+import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,9 +15,9 @@ function Login() {
   const login = async (data) => {
     setError("");
     try {
-      const session = await authServie.login(data);
+      const session = await authService.login(data);
       if (session) {
-        const userData = await authServie.getCurrentUser();
+        const userData = await authService.getCurrentUser();
         if (userData) dispatch(authLogin(userData));
         navigate("/");
       }
@@ -24,6 +25,7 @@ function Login() {
       setError(error.message);
     }
   };
+
   return (
     <div className="flex items-center justify-center w-full">
       <div
@@ -53,23 +55,23 @@ function Login() {
               label="Email: "
               placeholder="Enter your email"
               type="email"
+              {...register("email", {
+                required: true,
+                validate: {
+                  matchPatern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    "Email address must be a valid address",
+                },
+              })}
             />
-            {...register("email", {
-              required: true,
-              validate: {
-                matchPatern: (value) =>
-                  /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                  "Email address must be a valid address",
-              },
-            })}
             <Input
-              label="password"
-              placeholder="Enter your password"
+              label="Password: "
               type="password"
+              placeholder="Enter your password"
+              {...register("password", {
+                required: true,
+              })}
             />
-            {...register("password", {
-              required: true,
-            })}
             <Button type="submit" className="w-full">
               Sign in
             </Button>
